@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Call Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>API Call Example</h1>
+
+<button onclick="fetchData()">Fetch Data</button>
+
+<div id="result"></div>
+
+<script>
+    // Function to make the API call
+    function fetchData() {
+        fetch('http://localhost:8080/api/getcardstatus') // Replace with your API endpoint
+            .then(response => response.json())
+            .then(data => {
+                // Display the data on the webpage
+                document.getElementById('result').innerHTML = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }
+</script>
+
+</body>
+</html>

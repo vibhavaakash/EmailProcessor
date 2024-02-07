@@ -4,9 +4,11 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 **/.idea/
+/files/
 
 ### IntelliJ IDEA ###
 *.iws
+*.txt
 *.iml
 *.ipr
 out/
