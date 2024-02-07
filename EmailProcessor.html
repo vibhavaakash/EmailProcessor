@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Call Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>API Call Example</h1>
+
+<br>
+<label for="minusDays">Enter minusDays:</label>
+  <input type="number" id="minusDays" placeholder="Enter minusDays" />
+
+  <br/>
+  <br>
+
+  <label>Choose options:</label>
+  <div>
+    <input type="checkbox" id="indeed" value="INDEED">
+    <label for="indeed">INDEED</label>
+  </div>
+  <div>
+    <input type="checkbox" id="linkedin" value="LINKEDIN">
+    <label for="linkedin">LINKEDIN</label>
+  </div>
+  <div>
+    <input type="checkbox" id="monster" value="MONSTER">
+    <label for="monster">MONSTER</label>
+  </div>
+  <div>
+    <input type="checkbox" id="naukri" value="NAUKRI">
+    <label for="naukri">NAUKRI</label>
+  </div>
+  <div>
+    <input type="checkbox" id="talent" value="TALENT">
+    <label for="talent">TALENT</label>
+  </div>
+  <div>
+    <input type="checkbox" id="hirist" value="HIRIST">
+    <label for="hirist">HIRIST</label>
+  </div>
+
+  <br/>
+
+<button onclick="fetchData()">Fetch Data</button>
+
+<div id="result"></div>
+
+<script>
+    // Function to make the API call
+    function fetchData() {
+      const apiUrl = 'http://localhost:8080/api/getcardstatus';
+      const options = ['indeed', 'linkedin', 'monster','naukri','talent','hirist'];
+      const queryParams = {
+        minusDays: document.getElementById('minusDays').value
+      };
+
+      const requestBody = options.filter(optionId => document.getElementById(optionId).checked).map(optionId => document.getElementById(optionId).value);
+
+      // Convert the query parameters object to a query string
+      const queryString = Object.keys(queryParams).map(key => `${encodeURIComponent(key)}=${encodeURIComponent(queryParams[key])}`).join('&');
+
+      // Append the query string to the API URL if parameters are present
+      const apiUrlWithParams = `${apiUrl}?${queryString}`;
+
+      // Make the API request
+      fetch(apiUrlWithParams, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody)
+      })
+        .then(response => response.json())
+        .then(data => {
+          data.forEach(url => {
+          document.getElementById('result').innerHTML = JSON.stringify(url, null, 2);
+              // Open each URL in a new tab
+              window.open(url, '_blank');
+          });
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+
+    }
+</script>
+
+</body>
+</html>
